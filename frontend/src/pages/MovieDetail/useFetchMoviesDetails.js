@@ -5,6 +5,7 @@ const API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNh
 
 export function useFetchMoviesDetails(movieId) {
   const [movie, setMovie] = useState(null);
+  const [credits, setCredits] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -12,14 +13,21 @@ export function useFetchMoviesDetails(movieId) {
     if (!movieId) return;
 
     setLoading(true);
-    axios
-      .get('https://api.themoviedb.org/3/movie/' + movieId, {
+    Promise.all([ // pour faire 2 requêtes en même temps
+      axios.get('https://api.themoviedb.org/3/movie/' + movieId, {
         headers: {
           Authorization: 'Bearer ' + API_TOKEN,
         },
-      })
-      .then((response) => {
-        setMovie(response.data);
+      }),
+      axios.get('https://api.themoviedb.org/3/movie/' + movieId + '/credits', {
+        headers: {
+          Authorization: 'Bearer ' + API_TOKEN,
+        },
+      }),
+    ])
+      .then((responses) => {
+        setMovie(responses[0].data);
+        setCredits(responses[1].data);
         setLoading(false);
       })
       .catch((err) => {
@@ -28,5 +36,5 @@ export function useFetchMoviesDetails(movieId) {
       });
   }, [movieId]);
 
-  return { movie, loading, error };
+  return { movie, credits, loading, error };
 }
