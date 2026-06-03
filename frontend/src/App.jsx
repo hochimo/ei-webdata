@@ -4,7 +4,7 @@ import About from './pages/About/About';
 import Layout from './components/Layout/Layout';
 import Counter from './pages/Counter/Counter';
 import Users from './pages/Users/Users';
-import MovieDetails from './pages/MovieDetails/MovieDetails';
+import MovieDetails from './pages/MovieDetail/MovieDetail';
 
 function App() {
   return (
