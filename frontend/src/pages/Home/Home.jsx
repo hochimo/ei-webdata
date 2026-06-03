@@ -8,6 +8,17 @@ function Home() {
   const [movieName, setMovieName] = useState('');
   const { movies, loading, error } = useFetchMovies();
 
+  const filteredMovies = movies.filter((movie) => {
+    if (!movieName) {
+      return true;
+    }
+
+    const lowerName = movieName.toLowerCase();
+    const title = movie.title || movie.name || '';
+
+    return title.toLowerCase().includes(lowerName);
+  });
+
   return (
     <div className="App">
       <header className="App-header">
@@ -19,11 +30,11 @@ function Home() {
             value={movieName}
             onChange={(e) => setMovieName(e.target.value)}
           />
-          {movieName && <p>{movieName}</p>}
+          {movieName && <p>Recherche : {movieName}</p>}
         </p>
         {loading && <p>Chargement...</p>}
         {error && <p>Erreur !</p>}
-        <MoviesTable movies={movies} />
+        <MoviesTable movies={filteredMovies} />
       </header>
     </div>
   );
