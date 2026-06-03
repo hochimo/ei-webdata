@@ -4,6 +4,13 @@
   align-items: flex-start;
 }
 
+.Users-selector-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
 .Users-container > :not(:last-child) {
   margin-bottom: 20px;
 }

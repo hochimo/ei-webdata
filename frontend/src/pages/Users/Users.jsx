@@ -1,6 +1,7 @@
 import './Users.css';
 import AddUserForm from '../../components/AddUserForm/AddUserForm';
 import UsersTable from '../../components/UsersTable/UsersTable';
+import UserSelector from '../../components/UserSelector/UserSelector';
 import { useFetchUsers } from './useFetchUsers';
 
 function Users() {
@@ -9,6 +10,9 @@ function Users() {
   return (
     <div className="Users-container">
       <h1>This page displays the users</h1>
+      <div className="Users-selector-wrapper">
+        <UserSelector />
+      </div>
       <AddUserForm onSuccessfulUserCreation={fetchUsers} />
       <UsersTable users={users} onSuccessfulUserDeletion={fetchUsers} />
       {usersLoadingError !== null && (
