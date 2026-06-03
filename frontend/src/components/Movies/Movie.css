@@ -20,6 +20,12 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 
+.movies-grid a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 .movie-card img {
   width: 100%;
   height: auto;
@@ -30,6 +36,7 @@
 .movie-card-content {
   padding: 12px;
   color: white;
+  text-decoration: none;
   display: flex;
   flex-direction: column;
   gap: 8px;

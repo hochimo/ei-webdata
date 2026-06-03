@@ -1,0 +1,27 @@
+.movie-detail {
+  
+}
+.movie-detail-retour {
+  margin-bottom: 16px;
+  color: white;
+  font-size: 14px;
+}
+
+.movie-detail-info p {
+  
+ 
+}
+
+.movie-detail-img {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px
+}
+
+.movie-detail-date {
+  
+}
+
+.movie-detail-synopsis {
+
+}

@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { useFetchMoviesDetails } from './useFetchMoviesDetails';
+import './MovieDetail.css';
 
 function MovieDetail() {
   const { id } = useParams();
@@ -11,18 +12,25 @@ function MovieDetail() {
 
   return (
     <div className="movie-detail">
-      <Link to="/" className="movie-detail-back">
+      <Link to="/" className="movie-detail-retour">
         ← Retour à l'accueil
       </Link>
-      <h1>{movie.title || movie.name || 'Titre inconnu'}</h1>
-      <p>{movie.release_date}</p>
-      {movie.poster_path && (
+      
+      <div className='movie-detail-img'>
+        {movie.poster_path && (
         <img
           src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
         />
       )}
-      <p>{movie.overview}</p>
+      <div className="movie-detail-info">
+
+        <h1>{movie.title || movie.name || 'Titre inconnu'}</h1>
+        <h4 className="movie-detail-date"> Release Date :  {movie.release_date}</h4>
+        <h4> Synopsis :</h4>
+        <p className="movie-detail-synopsis">{movie.overview}</p>
+      </div>
     </div>
+</div>
   );
 }
 
