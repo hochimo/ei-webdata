@@ -2,16 +2,16 @@ import { appDataSource } from './datasource.js';
 import Movie from './entities/movies.js';
 import axios from 'axios';
 
-const seedDatabaseFromAPI = async () => {
+export const seedDatabaseFromAPI = async (apiURL) => {
   try {
     // 1. On se connecte à notre base de données locale
     await appDataSource.initialize();
     console.log("✅ Connexion à la base de données réussie !");
     const movieRepository = appDataSource.getRepository(Movie);
-
+    
     // 2. On va chercher les données sur TMDB
     console.log("🌍 Récupération des films depuis TMDB...");
-    const response = await axios.get(`https://api.themoviedb.org/3/discover/movie`, {
+    const response = await axios.get(apiURL, {
       headers: {
         accept: 'application/json',
         // Utilise bien ton propre token ici
