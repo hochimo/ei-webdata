@@ -1,0 +1,23 @@
+.UserSelector-container {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-left: 1rem;
+  color: white;
+}
+
+.UserSelector-label {
+  font-size: 0.8rem;
+}
+
+.UserSelector-container select {
+  min-width: 220px;
+  padding: 0.25rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.UserSelector-error {
+  color: #ffb3b3;
+  font-size: 0.8rem;
+}

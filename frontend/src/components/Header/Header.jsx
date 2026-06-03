@@ -1,24 +1,30 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
+import UserSelector from '../UserSelector/UserSelector';
 
 const Header = () => {
+  const location = useLocation();
+
   return (
     <div className="Header-container">
-      <Link className="Link" to="/">
-        Home
-      </Link>
-      <div>|</div>
-      <Link className="Link" to="/counter">
-        Counter
-      </Link>
-      <div>|</div>
-      <Link className="Link" to="/users">
-        Users
-      </Link>
-      <div>|</div>
-      <Link className="Link" to="/about">
-        About
-      </Link>
+      <div className="Header-links">
+        <Link className="Link" to="/">
+          Home
+        </Link>
+        <div>|</div>
+        <Link className="Link" to="/counter">
+          Counter
+        </Link>
+        <div>|</div>
+        <Link className="Link" to="/users">
+          Users
+        </Link>
+        <div>|</div>
+        <Link className="Link" to="/about">
+          About
+        </Link>
+      </div>
+      {location.pathname === '/users' && <UserSelector />}
     </div>
   );
 };
