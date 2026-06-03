@@ -31,12 +31,16 @@ function MovieDetail() {
             <h1>{movie.title || movie.name || 'Titre inconnu'}</h1>
             <h4 className="movie-detail-date">Release Date : {movie.release_date}</h4>
           </div>
+          <div className="movie-detail-genres">
+            <h4>Genres :</h4>
+            <p>{movie.genres?.map((genre) => genre.name).join(', ')}</p>
+          </div>
 
           <div className="movie-detail-overview">
             <h4>Synopsis :</h4>
             <p className="movie-detail-synopsis">{movie.overview}</p>
           </div>
-
+          
           <div className="movie-detail-credits">
             <h4>Credits :</h4>
             <p>{credits?.cast?.slice(0, 5).map((actor) => actor.name).join(', ')}</p>
