@@ -1,16 +1,36 @@
 import express from 'express';
 import { appDataSource } from '../datasource.js';
 import User from '../entities/user.js';
+import Follow from '../entities/follow.js';
 
 const router = express.Router();
 
-router.get('/', function (req, res) {
-  appDataSource
-    .getRepository(User)
-    .find({})
-    .then(function (users) {
-      res.json({ users: users });
-    });
+router.get('/', async function (req, res) {
+  const followerId = req.query.followerId
+    ? parseInt(req.query.followerId, 10)
+    : null;
+
+  try {
+    const users = await appDataSource.getRepository(User).find({});
+    let followedIds = [];
+
+    if (followerId) {
+      const followRows = await appDataSource
+        .getRepository(Follow)
+        .find({ where: { followerId } });
+      followedIds = followRows.map((row) => row.followedId);
+    }
+
+    const usersWithFollow = users.map((user) => ({
+      ...user,
+      isFollowed: followerId ? followedIds.includes(user.id) : false,
+    }));
+
+    res.json({ users: usersWithFollow });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error while fetching users' });
+  }
 });
 
 router.post('/new', function (req, res) {
@@ -39,6 +59,69 @@ router.post('/new', function (req, res) {
         res.status(500).json({ message: 'Error while creating the user' });
       }
     });
+});
+
+router.post('/:userId/follow', async function (req, res) {
+  const followedId = parseInt(req.params.userId, 10);
+  const followerId = req.body.followerId
+    ? parseInt(req.body.followerId, 10)
+    : null;
+
+  if (!followerId) {
+    return res.status(400).json({ message: 'Missing followerId' });
+  }
+
+  if (followerId === followedId) {
+    return res.status(400).json({ message: 'Users cannot follow themselves' });
+  }
+
+  try {
+    const followRepository = appDataSource.getRepository(Follow);
+    const existingFollow = await followRepository.findOne({
+      where: { followerId, followedId },
+    });
+
+    if (existingFollow) {
+      return res.status(200).json({ message: 'Already following' });
+    }
+
+    await followRepository.save({ followerId, followedId });
+    res.status(201).json({ message: 'User followed successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error while following user' });
+  }
+});
+
+router.delete('/:userId/follow', async function (req, res) {
+  const followedId = parseInt(req.params.userId, 10);
+  const followerId = req.body.followerId
+    ? parseInt(req.body.followerId, 10)
+    : null;
+
+  if (!followerId) {
+    return res.status(400).json({ message: 'Missing followerId' });
+  }
+
+  if (followerId === followedId) {
+    return res.status(400).json({ message: 'Users cannot unfollow themselves' });
+  }
+
+  try {
+    const result = await appDataSource.getRepository(Follow).delete({
+      followerId,
+      followedId,
+    });
+
+    if (result.affected === 0) {
+      return res.status(404).json({ message: 'Follow relationship not found' });
+    }
+
+    res.status(200).json({ message: 'User unfollowed successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error while unfollowing user' });
+  }
 });
 
 router.delete('/:userId', function (req, res) {
