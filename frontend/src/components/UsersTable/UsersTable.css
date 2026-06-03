@@ -9,3 +9,24 @@
 .users-table th {
   padding: 10px;
 }
+
+.follow-button,
+.unfollow-button {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+}
+
+.follow-button {
+  background-color: #007bff;
+}
+
+.unfollow-button {
+  background-color: #dc3545;
+}
+
+.follow-placeholder {
+  color: #666;
+}

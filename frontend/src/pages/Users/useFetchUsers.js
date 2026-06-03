@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export function useFetchUsers() {
+export function useFetchUsers(followerId) {
   const [users, setUsers] = useState([]);
   const [usersLoadingError, setUsersLoadingError] = useState(null);
 
@@ -9,9 +9,11 @@ export function useFetchUsers() {
     setUsersLoadingError(null);
 
     axios
-      .get(`${import.meta.env.VITE_BACKEND_URL}/users`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/users`, {
+        params: followerId ? { followerId } : {},
+      })
       .then((response) => {
-        setUsers(response.data.users);
+        setUsers(response.data.users || []);
       })
       .catch((error) => {
         setUsersLoadingError('An error occured while fetching users.');
@@ -19,10 +21,10 @@ export function useFetchUsers() {
       });
   };
 
-  // fetch users on component mount
+  // fetch users on component mount and when the selected follower changes
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [followerId]);
 
   return { users, usersLoadingError, fetchUsers };
 }

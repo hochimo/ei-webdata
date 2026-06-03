@@ -42,6 +42,7 @@ function AddUserForm({ onSuccessfulUserCreation }) {
 
   return (
     <div>
+      <p className="add-user-form-title">Créez votre profil:</p>
       <form className="add-user-form" onSubmit={saveUser}>
         <input
           className="add-user-input"
