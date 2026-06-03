@@ -1,4 +1,5 @@
 import './Movie.css';
+import {Link} from "react-router-dom";
 
 function MoviesTable({ movies }) {
   return (
@@ -9,17 +10,19 @@ function MoviesTable({ movies }) {
           : null;
 
         return (
-          <article className="movie-card" key={movie.id}>
-            {posterUrl ? (
-              <img src={posterUrl} alt={movie.title || 'Film'} />
-            ) : (
-              <div className="movie-card-empty">Aucune image disponible</div>
-            )}
-            <div className="movie-card-content">
-              <h3 className="movie-card-title">{movie.title || movie.name || 'Titre inconnu'}</h3>
-              <p className="movie-card-date">{movie.release_date || movie.first_air_date || ''}</p>
-            </div>
-          </article>
+          <Link to={`/movies/${movie.id}`} state={{ movie }} key={movie.id} >
+            <article className="movie-card" >
+              {posterUrl ? (
+                <img src={posterUrl} alt={movie.title || 'Film'} />
+              ) : (
+                <div className="movie-card-empty">Aucune image disponible</div>
+              )}
+              <div className="movie-card-content">
+                <h3 className="movie-card-title">{movie.title || movie.name || 'Titre inconnu'}</h3>
+                <p className="movie-card-date">{movie.release_date || movie.first_air_date || ''}</p>
+              </div>
+            </article>
+          </Link>
         );
       })}
     </div>
