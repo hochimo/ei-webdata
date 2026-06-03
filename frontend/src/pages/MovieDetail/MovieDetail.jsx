@@ -1,19 +1,29 @@
-import { useState } from 'react';
-import { useFetchMovies } from './useFetchMovies';
-
-import MoviesTable from '../../components/Movies/Movie';
+import { Link, useParams } from 'react-router-dom';
+import { useFetchMoviesDetails } from './useFetchMoviesDetails';
 
 function MovieDetail() {
-  const [movieName, setMovieName] = useState('');
-  const { movie, loading, error } = useFetchMoviesDetails(movieId);//besoin d'avoir le movie id ???
+  const { id } = useParams();
+  const { movie, loading, error } = useFetchMoviesDetails(id);
 
-    return (
-        <div className="App">
-            <header className="App-header">
-                <p>
-                    nom du film : {movieName}
-                </p>
-            </header>
-        </div>
-    );
+  if (loading) return <div>Chargement...</div>;
+  if (error) return <div>Erreur : {error.message || error.toString()}</div>;
+  if (!movie) return <div>Film non trouvé</div>;
+
+  return (
+    <div className="movie-detail">
+      <Link to="/" className="movie-detail-back">
+        ← Retour à l'accueil
+      </Link>
+      <h1>{movie.title || movie.name || 'Titre inconnu'}</h1>
+      <p>{movie.release_date}</p>
+      {movie.poster_path && (
+        <img
+          src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+        />
+      )}
+      <p>{movie.overview}</p>
+    </div>
+  );
 }
+
+export default MovieDetail;
