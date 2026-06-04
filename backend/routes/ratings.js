@@ -59,39 +59,63 @@ router.post('/', async function (req, res) {
       });
     }
 
+    const userId = parseInt(user_id, 10);
+    const movieId = parseInt(movie_id, 10);
+
+    if (Number.isNaN(userId) || Number.isNaN(movieId)) {
+      return res.status(400).json({
+        message: 'user_id et movie_id doivent être des nombres valides',
+      });
+    }
+
     const ratingRepository = appDataSource.getRepository(Ratings);
+    const userRepository = appDataSource.getRepository('User');
+    const movieRepository = appDataSource.getRepository('Movie');
+
+    const userExists = await userRepository.findOne({ where: { id: userId } });
+    if (!userExists) {
+      return res.status(404).json({ message: 'Utilisateur introuvable' });
+    }
+
+    let movieExists = await movieRepository.findOne({ where: { id: movieId } });
+    if (!movieExists) {
+      movieExists = movieRepository.create({
+        id: movieId,
+        title: `Film #${movieId}`,
+        year: null,
+      });
+      await movieRepository.save(movieExists);
+    }
 
     // Chercher une note existante
     const existingRating = await ratingRepository.findOne({
       where: {
-        user: { id: user_id },
-        movie: { id: movie_id },
+        user: { id: userId },
+        movie: { id: movieId },
       },
     });
 
     let savedRating;
     if (existingRating) {
-      // Mise à jour
       existingRating.note = note;
       savedRating = await ratingRepository.save(existingRating);
       return res.status(200).json({
         message: 'Note mise à jour avec succès',
         rating: savedRating,
       });
-    } else {
-      // Création
-      const newRating = ratingRepository.create({
-        movie: { id: movie_id },
-        user: { id: user_id },
-        note,
-      });
-
-      savedRating = await ratingRepository.save(newRating);
-      return res.status(201).json({
-        message: 'Note créée avec succès',
-        rating: savedRating,
-      });
     }
+
+    const newRating = ratingRepository.create({
+      movie: { id: movieId },
+      user: { id: userId },
+      note,
+    });
+
+    savedRating = await ratingRepository.save(newRating);
+    return res.status(201).json({
+      message: 'Note créée avec succès',
+      rating: savedRating,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erreur lors de la sauvegarde de la note' });

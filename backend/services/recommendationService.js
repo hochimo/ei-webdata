@@ -105,11 +105,22 @@ export async function getRecommendations(userId, limit = 5) {
     // 4. Calculer les scores pour chaque film non noté
     const scores = {};
     const ratedMovieIds = new Set(userRatings.map((r) => r.movie.id));
+    const candidateMovies = allMovies.filter(
+      (candidateMovie) => !ratedMovieIds.has(candidateMovie.id)
+    );
 
-    for (const candidateMovie of allMovies) {
-      // Skip films déjà notés par l'utilisateur
-      if (ratedMovieIds.has(candidateMovie.id)) continue;
+    if (candidateMovies.length === 0) {
+      const topMovies = allMovies
+        .sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0))
+        .slice(0, limit)
+        .map((movie) => ({
+          movie,
+          score: movie.vote_average ? movie.vote_average.toFixed(3) : '0.000',
+        }));
+      return topMovies;
+    }
 
+    for (const candidateMovie of candidateMovies) {
       const candidateVector = movieToVector(candidateMovie, allGenres);
       let totalScore = 0;
 
@@ -128,7 +139,6 @@ export async function getRecommendations(userId, limit = 5) {
 
     // 5. Trier par score et retourner top N
     const recommendations = Object.values(scores)
-      .filter((item) => item.score > 0) // Filtrer les scores négatifs/nuls
       .sort((a, b) => b.score - a.score)
       .slice(0, limit)
       .map((item) => ({
