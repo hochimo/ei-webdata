@@ -2,7 +2,7 @@ import { appDataSource } from './datasource.js';
 import Movie from './entities/movies.js';
 import axios from 'axios';
 
-export const seedDatabaseFromAPI = async (apiURL) => {
+const seedDatabaseFromAPI = async () => {
   try {
     // 1. On se connecte à notre base de données locale
     await appDataSource.initialize();
@@ -11,7 +11,7 @@ export const seedDatabaseFromAPI = async (apiURL) => {
     
     // 2. On va chercher les données sur TMDB
     console.log("🌍 Récupération des films depuis TMDB...");
-    const response = await axios.get(apiURL, {
+    const response = await axios.get('https://api.themoviedb.org/3/discover/movie', {
       headers: {
         accept: 'application/json',
         // Utilise bien ton propre token ici
@@ -25,6 +25,11 @@ export const seedDatabaseFromAPI = async (apiURL) => {
     const moviesToInsert = tmdbMovies.map((tmdbMovie) => {
       return {
         title: tmdbMovie.title,
+        id: tmdbMovie.id,
+        synopsis: tmdbMovie.overview,
+        genres: tmdbMovie.genre_ids,
+        vote_average: tmdbMovie.vote_average,
+        vote_count: tmdbMovie.vote_count,
         // On coupe "2014-11-05" pour ne garder que les 4 premiers caractères (2014), qu'on transforme en entier
         year: parseInt(tmdbMovie.release_date.substring(0, 4))
       };

@@ -2,6 +2,8 @@ import express from 'express';
 import { appDataSource } from '../datasource.js';
 import User from '../entities/user.js';
 import Follow from '../entities/follow.js';
+import Ratings from '../entities/ratings.js';
+
 
 const router = express.Router();
 
@@ -32,6 +34,34 @@ router.get('/', async function (req, res) {
     res.status(500).json({ message: 'Error while fetching users' });
   }
 });
+
+router.get('/user_id/ratings', function (req, res) {
+  appDataSource
+    .getRepository(Ratings)
+    .find({
+  relations: {
+    movie: true,
+    user: true
+  },
+  where: {
+    user: { 
+      id : parseInt(req.params.user_id) }, 
+    }
+  
+})
+    .then(function (rating) {
+      if (rating) {
+        res.json(rating);
+      } else {
+        res.status(404).json({ message: 'Rating not found' });
+      }
+    })
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error while fetching the rating' });
+    });
+});
+
 
 router.post('/new', function (req, res) {
   const userRepository = appDataSource.getRepository(User);
