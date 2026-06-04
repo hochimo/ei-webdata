@@ -35,6 +35,7 @@ function MovieDetail() {
             <h4>Genres :</h4>
             <p>{movie.genres?.map((genre) => genre.name).join(', ')}</p>
           </div>
+          
 
           <div className="movie-detail-overview">
             <h4>Synopsis :</h4>
@@ -44,6 +45,10 @@ function MovieDetail() {
           <div className="movie-detail-credits">
             <h4>Credits :</h4>
             <p>{credits?.cast?.slice(0, 5).map((actor) => actor.name).join(', ')}</p>
+          </div>
+          <div className="movie-detail-productionCompanies">
+            <h4> Production Companies : </h4>
+            <p>{movie.production_companies?.map((company) => company.name).join(', ')}</p>
           </div>
         </div>
       </div>

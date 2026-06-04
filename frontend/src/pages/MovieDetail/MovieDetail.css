@@ -53,6 +53,7 @@
 
 .movie-detail-overview h4,
 .movie-detail-credits h4,
+.movie-detail-productionCompanies h4,
 .movie-detail-genres h4 {
   margin: 0 0 8px;
   font-size: 1rem;
@@ -60,6 +61,7 @@
 
 .movie-detail-synopsis,
 .movie-detail-credits p,
+.movie-detail-productionCompanies p,
 .movie-detail-genres p {
   margin: 0;
   line-height: 1.6;
