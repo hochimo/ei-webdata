@@ -5,6 +5,7 @@ import Layout from './components/Layout/Layout';
 import Counter from './pages/Counter/Counter';
 import Users from './pages/Users/Users';
 import { UserProvider } from './context/UserContext';
+import MovieDetail from './pages/MovieDetail/MovieDetail';
 
 function App() {
   return (
