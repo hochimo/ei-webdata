@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useFetchMovies } from './useFetchMovies';
-import logo from './logo.svg';
+
 import './Home.css';
 import MoviesTable from '../../components/Movies/Movie';
 
@@ -22,11 +22,11 @@ function Home() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        
         <p>
           <input
             name="name"
-            placeholder="Nom du film"
+            placeholder="Rechercher un film"
             value={movieName}
             onChange={(e) => setMovieName(e.target.value)}
           />
@@ -34,6 +34,12 @@ function Home() {
         </p>
         {loading && <p>Chargement...</p>}
         {error && <p>Erreur !</p>}
+        <div className="recommended-section">
+          <h3 className="recommended-title">Films recommandés pour vous</h3>
+        </div>
+        <div className="popular-section">
+          <h3 className="popular-title">Films populaires</h3>
+        </div>
         <MoviesTable movies={filteredMovies} />
       </header>
     </div>

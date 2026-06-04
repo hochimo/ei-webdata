@@ -1,10 +1,18 @@
 .Header-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 5px;
+  background-color: #2a9d8f;
+  border-radius: 8px;
   font-size: calc(10px + 2vmin);
+}
+
+
+
+.Header-container img {
+  height: 40px;
 }
 
 .Header-links {
