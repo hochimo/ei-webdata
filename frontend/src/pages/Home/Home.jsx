@@ -34,6 +34,9 @@ function Home() {
         </p>
         {loading && <p>Chargement...</p>}
         {error && <p>Erreur !</p>}
+        <div className="popular-section">
+          <h3 className="popular-title">Films populaires</h3>
+        </div>
         <MoviesTable movies={filteredMovies} />
       </header>
     </div>

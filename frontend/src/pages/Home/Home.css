@@ -23,6 +23,22 @@
   color: white;
 }
 
+.popular-section {
+  width: 100%;
+  text-align: left;
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
+
+.popular-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.App-header p {
+  font-weight: 700;
+}
 .App-link {
   color: #61dafb;
 }
