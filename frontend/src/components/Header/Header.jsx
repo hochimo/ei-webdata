@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import './Header.css';
+import logo from '../../pages/Home/logoC.png';
 
 const Header = () => {
   return (
     <div className="Header-container">
+      <img src={logo} className="App-logo" alt="logo" /> 
       <div className="Header-links">
         <Link className="Link" to="/">
           Home
