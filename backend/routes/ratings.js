@@ -7,8 +7,8 @@ const router = express.Router();
 router.post('/', function (req, res) {
   const ratingRepository = appDataSource.getRepository(Ratings);
   const newRating = ratingRepository.create({
-    movie_id: req.body.movie_id,
-    user_id: req.body.user_id,
+    movie: { id: req.body.movie_id }, 
+    user: { id: req.body.user_id },
     note: req.body.note,
   });
 

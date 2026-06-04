@@ -45,7 +45,7 @@ router.get('/:movie_id/ratings', function (req, res) {
     user: true
   },
   where: {
-    movie: { movie_id: parseInt(req.params.movie_id) }
+    movie: { id: parseInt(req.params.movie_id) }
   }
 })
     .then(function (rating) {

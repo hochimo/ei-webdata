@@ -4,7 +4,7 @@ const Movies = new typeorm.EntitySchema({
   name: 'Movie',
   tableName: 'movie',
   columns: {
-    movie_id: {
+    id: {
       primary: true,
       type: Number,
       generated: true,
