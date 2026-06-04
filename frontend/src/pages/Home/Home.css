@@ -23,14 +23,16 @@
   color: white;
 }
 
-.popular-section {
+.popular-section,
+.recommended-section {
   width: 100%;
   text-align: left;
   margin-top: 10px;
   margin-bottom: 8px;
 }
 
-.popular-title {
+.popular-title,
+.recommended-title {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
