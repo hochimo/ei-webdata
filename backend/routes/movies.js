@@ -1,6 +1,8 @@
 import express from 'express';
 import { appDataSource } from '../datasource.js';
 import Movies from '../entities/Movies.js';
+import Ratings from '../entities/ratings.js';
+
 
 const router = express.Router();
 
@@ -17,10 +19,10 @@ router.get('/', function (req, res) {
     });
 });
 
-router.get('/:id', function (req, res) {
+router.get('/:movie_id', function (req, res) {
   appDataSource
     .getRepository(Movies)
-    .findOne({ where: { id: parseInt(req.params.id) } })
+    .findOne({ where: { movie_id: parseInt(req.params.movie_id) } })
     .then(function (movie) {
       if (movie) {
         res.json(movie);
@@ -31,6 +33,31 @@ router.get('/:id', function (req, res) {
     .catch(function (error) {
       console.error(error);
       res.status(500).json({ message: 'Error while fetching the movie' });
+    });
+});
+
+router.get('/:movie_id/ratings', function (req, res) {
+  appDataSource
+    .getRepository(Ratings)
+    .find({
+  relations: {
+    movie: true,
+    user: true
+  },
+  where: {
+    movie: { id: parseInt(req.params.movie_id) }
+  }
+})
+    .then(function (rating) {
+      if (rating) {
+        res.json(rating);
+      } else {
+        res.status(404).json({ message: 'Rating not found' });
+      }
+    })
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error while fetching the rating' });
     });
 });
 

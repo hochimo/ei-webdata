@@ -4,6 +4,7 @@ import logger from 'morgan';
 import { appDataSource } from './datasource.js';
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
+import ratingsRouter from './routes/ratings.js';
 import { jsonErrorHandler } from './services/jsonErrorHandler.js';
 import { routeNotFoundJsonHandler } from './services/routeNotFoundJsonHandler.js';
 import moviesRouter from './routes/movies.js';
@@ -21,6 +22,7 @@ const startServer = async () => {
   app.use('/', indexRouter);
   app.use('/users', usersRouter);
   app.use('/movies', moviesRouter);
+  app.use('/ratings', ratingsRouter);
   // Register 404 middleware and error handler
   app.use(routeNotFoundJsonHandler); // this middleware must be registered after all routes to handle 404 correctly
   app.use(jsonErrorHandler); // this error handler must be registered after all middleware to catch all errors

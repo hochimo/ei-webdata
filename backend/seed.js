@@ -8,10 +8,10 @@ const seedDatabaseFromAPI = async () => {
     await appDataSource.initialize();
     console.log("✅ Connexion à la base de données réussie !");
     const movieRepository = appDataSource.getRepository(Movie);
-
+    
     // 2. On va chercher les données sur TMDB
     console.log("🌍 Récupération des films depuis TMDB...");
-    const response = await axios.get(`https://api.themoviedb.org/3/discover/movie`, {
+    const response = await axios.get('https://api.themoviedb.org/3/discover/movie', {
       headers: {
         accept: 'application/json',
         // Utilise bien ton propre token ici
@@ -25,6 +25,11 @@ const seedDatabaseFromAPI = async () => {
     const moviesToInsert = tmdbMovies.map((tmdbMovie) => {
       return {
         title: tmdbMovie.title,
+        id: tmdbMovie.id,
+        synopsis: tmdbMovie.overview,
+        genres: tmdbMovie.genre_ids,
+        vote_average: tmdbMovie.vote_average,
+        vote_count: tmdbMovie.vote_count,
         // On coupe "2014-11-05" pour ne garder que les 4 premiers caractères (2014), qu'on transforme en entier
         year: parseInt(tmdbMovie.release_date.substring(0, 4))
       };
