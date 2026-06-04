@@ -9,17 +9,17 @@ import MovieDetail from './pages/MovieDetail/MovieDetail';
 
 function App() {
   return (
-    <UserProvider>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="counter" element={<Counter />} />
-          <Route path="users" element={<Users />} />
-          <Route path="about" element={<About />} />
-          <Route path="movies/:id" element={<MovieDetail />} />
-        </Routes>
-      </Layout>
-    </UserProvider>
+    
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="counter" element={<Counter />} />
+        <Route path="users" element={<Users />} />
+        <Route path="about" element={<About />} />
+        <Route path="movies/:id" element={<MovieDetail />} />
+      </Routes>
+    </Layout>
+    
   );
 }
 

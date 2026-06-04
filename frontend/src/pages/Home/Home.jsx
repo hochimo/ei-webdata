@@ -26,7 +26,7 @@ function Home() {
         <p>
           <input
             name="name"
-            placeholder="Nom du film"
+            placeholder="Rechercher un film"
             value={movieName}
             onChange={(e) => setMovieName(e.target.value)}
           />
