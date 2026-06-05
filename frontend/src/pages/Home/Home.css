@@ -49,7 +49,8 @@
 .search-section {
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   margin-top: 18px; /* push search down slightly from recommendations */
   margin-bottom: 16px;
 }

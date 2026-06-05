@@ -61,7 +61,7 @@ function calculateCosineSimilarity(vec1, vec2) {
 
 /**
  * Convertit un film en vecteur de caractéristiques
- * Features: [year_normalized, genres..., vote_average_normalized]
+ * Features: [year_normalized, genres..., vote_average_normalized, runtime_normalized]
  * @param {object} movie - Objet film
  * @param {string[]} allGenres - Liste de tous les genres uniques
  * @returns {number[]} Vecteur du film
@@ -82,6 +82,12 @@ function movieToVector(movie, allGenres) {
   // 3. Vote average normalisé (0-10 -> 0-1)
   const normalizedVoteAvg = (movie.vote_average || 5) / 10;
   vector.push(normalizedVoteAvg);
+
+  // 4. Durée normalisée (0-240 minutes)
+  const normalizedRuntime = movie.runtime
+    ? Math.min(movie.runtime, 240) / 240
+    : 0.5;
+  vector.push(normalizedRuntime);
 
   return vector;
 }

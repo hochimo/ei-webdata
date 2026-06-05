@@ -104,6 +104,8 @@ router.post('/', async function (req, res) {
           ? parseInt(tmdbDetails.release_date.substring(0, 4), 10)
           : null,
         synopsis: tmdbDetails?.overview || null,
+        poster_path: tmdbDetails?.poster_path || null,
+        runtime: tmdbDetails?.runtime || null,
         genres: tmdbDetails?.genres
           ? tmdbDetails.genres.map((genre) => genre.name)
           : null,

@@ -25,6 +25,10 @@ const Movies = new typeorm.EntitySchema({
       type: String,
       nullable: true,
     },
+    runtime: {
+      type: Number,
+      nullable: true,
+    },
     genres : {
       type: 'simple-array',
       nullable: true,
