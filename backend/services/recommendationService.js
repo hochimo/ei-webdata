@@ -20,6 +20,28 @@ async function fetchTmdbMovieDetails(movieId) {
   }
 }
 
+async function fetchTmdbPopularMovies(limit = 5, excludedIds = new Set()) {
+  try {
+    const response = await axios.get('https://api.themoviedb.org/3/movie/popular', {
+      headers: {
+        Authorization: `Bearer ${TMDB_TOKEN}`,
+      },
+      params: {
+        language: 'fr-FR',
+        page: 1,
+      },
+    });
+    if (!response?.data?.results) return [];
+
+    return response.data.results
+      .filter((movie) => !excludedIds.has(movie.id))
+      .slice(0, limit);
+  } catch (error) {
+    console.warn('TMDB popular movies not available:', error.message);
+    return [];
+  }
+}
+
 /**
  * Calcule la similarité cosinus entre deux vecteurs
  * @param {number[]} vec1 - Premier vecteur
@@ -127,21 +149,12 @@ export async function getRecommendations(userId, limit = 5) {
     );
 
     if (candidateMovies.length === 0) {
-      const topMovies = allMovies
-        .sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0))
-        .slice(0, limit);
-
-      const recommendations = await Promise.all(
-        topMovies.map(async (movie) => {
-          const tmdbMovie = await fetchTmdbMovieDetails(movie.id);
-          return {
-            movie: tmdbMovie || movie,
-            score: movie.vote_average ? movie.vote_average.toFixed(3) : '0.000',
-          };
-        })
-      );
-
-      return recommendations;
+      const tmdbRecommendations = await fetchTmdbPopularMovies(limit, ratedMovieIds);
+      return tmdbRecommendations.map((movie) => ({
+        movie,
+        score: movie.popularity ? movie.popularity.toFixed(3) : '0.000',
+        reason: 'Aucun film local non noté restant, popularité TMDB',
+      }));
     }
 
     for (const candidateMovie of candidateMovies) {
