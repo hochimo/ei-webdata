@@ -27,6 +27,7 @@ const Movies = new typeorm.EntitySchema({
     },
     vote_average:{ type: 'float', nullable: true },
     vote_count:{ type: 'float', nullable: true },
+    actors:{      type: 'simple-array',      nullable: true,  },
 
   },
   relations: {    ratings: {
