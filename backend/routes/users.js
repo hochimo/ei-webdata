@@ -35,30 +35,29 @@ router.get('/', async function (req, res) {
   }
 });
 
-router.get('/user_id/ratings', function (req, res) {
+router.get('/:user_id/ratings', function (req, res) {
+  const userId = parseInt(req.params.user_id, 10);
+  if (Number.isNaN(userId)) {
+    return res.status(400).json({ message: 'Invalid user id' });
+  }
+
   appDataSource
     .getRepository(Ratings)
     .find({
-  relations: {
-    movie: true,
-    user: true
-  },
-  where: {
-    user: { 
-      id : parseInt(req.params.user_id) }, 
-    }
-  
-})
-    .then(function (rating) {
-      if (rating) {
-        res.json(rating);
-      } else {
-        res.status(404).json({ message: 'Rating not found' });
-      }
+      relations: {
+        movie: true,
+        user: true,
+      },
+      where: {
+        user: { id: userId },
+      },
+    })
+    .then(function (ratings) {
+      res.json(ratings);
     })
     .catch(function (error) {
       console.error(error);
-      res.status(500).json({ message: 'Error while fetching the rating' });
+      res.status(500).json({ message: 'Error while fetching the ratings' });
     });
 });
 

@@ -4,3 +4,33 @@
   color: white;
   font-size: 14px;
 }
+
+.Profile-ratings {
+  margin-top: 16px;
+}
+
+.Profile-ratings-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+}
+
+.Profile-rating-item {
+  padding: 6px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.Profile-rating-item a {
+  color: #b9c6db;
+  text-decoration: none;
+}
+
+.Profile-rating-value {
+  color: #f2c94c;
+}
+
+.Profile-ratings .error {
+  color: red;
+}
