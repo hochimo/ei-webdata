@@ -5,8 +5,8 @@ import logo from '../../pages/Home/logoC.png';
 const Header = () => {
   return (
     <div className="Header-container">
-      <img src={logo} className="App-logo" alt="logo" /> 
-      
+      <img src={logo} className="App-logo" alt="logo" />
+      <span className="Header-title">bledterboxd</span>
       <div className="Header-links">
         <Link className="Link" to="/">
           Accueil
