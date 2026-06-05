@@ -24,15 +24,15 @@ function Users() {
       <h1>Utilisateurs</h1>
       <div className="Users-selector-wrapper">
         <UserSelector />
+        <button
+          type="button"
+          className="Users-profile-button"
+          onClick={handleViewProfile}
+          disabled={!selectedUser}
+        >
+          Voir mon profil
+        </button>
       </div>
-      <button
-        type="button"
-        className="Users-profile-button"
-        onClick={handleViewProfile}
-        disabled={!selectedUser}
-      >
-        Voir mon profil
-      </button>
       <AddUserForm onSuccessfulUserCreation={fetchUsers} />
       <UsersTable
         users={users}

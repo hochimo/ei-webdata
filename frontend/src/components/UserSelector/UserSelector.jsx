@@ -37,9 +37,7 @@ function UserSelector() {
 
   return (
     <div className="UserSelector-container">
-      <label className="UserSelector-label" htmlFor="user-select">
-        Utilisateur :
-      </label>
+      
       <select
         id="user-select"
         value={selectedUser?.id ?? ''}

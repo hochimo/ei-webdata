@@ -41,7 +41,7 @@ function AddUserForm({ onSuccessfulUserCreation }) {
   };
 
   return (
-    <div>
+    <div className="add-user-form-wrapper">
       <p className="add-user-form-title">Créez votre profil:</p>
       <form className="add-user-form" onSubmit={saveUser}>
         <input
@@ -56,7 +56,7 @@ function AddUserForm({ onSuccessfulUserCreation }) {
         />
         <input
           className="add-user-input"
-          placeholder="First name"
+          placeholder="Prénom"
           value={formValues.firstname}
           onChange={(event) =>
             setFormValues({ ...formValues, firstname: event.target.value })
@@ -64,14 +64,14 @@ function AddUserForm({ onSuccessfulUserCreation }) {
         />
         <input
           className="add-user-input"
-          placeholder="Last name"
+          placeholder="Nom"
           value={formValues.lastname}
           onChange={(event) =>
             setFormValues({ ...formValues, lastname: event.target.value })
           }
         />
         <button className="add-user-button" type="submit">
-          Add user
+          Ajout de l'utilisateur
         </button>
       </form>
       {userCreationSuccess !== null && (

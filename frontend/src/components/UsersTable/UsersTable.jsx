@@ -41,9 +41,9 @@ function UsersTable({ users, selectedUser, onSuccessfulUserDeletion }) {
         <thead>
           <tr>
             <th>Email</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Follow</th>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Suivre</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -68,7 +68,7 @@ function UsersTable({ users, selectedUser, onSuccessfulUserDeletion }) {
                 )}
               </td>
               <td>
-                <button onClick={() => deleteUser(user.id)}>Delete</button>
+                <button onClick={() => deleteUser(user.id)}>Supprimer</button>
               </td>
             </tr>
           ))}
