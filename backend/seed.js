@@ -57,6 +57,7 @@ const seedDatabaseFromAPI = async () => {
         title: tmdbMovie.title,
         id: tmdbMovie.id,
         synopsis: tmdbMovie.overview,
+        poster_path: tmdbMovie.poster_path || null,
         genres: tmdbMovie.genre_ids,
         vote_average: tmdbMovie.vote_average,
         vote_count: tmdbMovie.vote_count,

@@ -21,6 +21,10 @@ const Movies = new typeorm.EntitySchema({
       type: String,
       nullable: true,
     },
+    poster_path: {
+      type: String,
+      nullable: true,
+    },
     genres : {
       type: 'simple-array',
       nullable: true,
