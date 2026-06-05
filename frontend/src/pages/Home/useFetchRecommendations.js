@@ -4,10 +4,10 @@ import axios from 'axios';
 /**
  * Hook pour récupérer les recommandations de films pour un utilisateur
  * @param {number} userId - ID de l'utilisateur
- * @param {number} limit - Nombre de recommandations (défaut: 5)
+ * @param {number} limit - Nombre de recommandations (défaut: 20)
  * @returns {object} { recommendations, loading, error }
  */
-export function useFetchRecommendations(userId, limit = 5) {
+export function useFetchRecommendations(userId, limit = 20) {
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
