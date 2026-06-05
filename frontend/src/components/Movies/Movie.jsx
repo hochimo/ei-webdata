@@ -19,7 +19,7 @@ function MoviesTable({ movies }) {
               )}
               <div className="movie-card-content">
                 <h3 className="movie-card-title">{movie.title || movie.name || 'Titre inconnu'}</h3>
-                <p className="movie-card-date">{movie.release_date || movie.first_air_date || ''}</p>
+                <p className="movie-card-date">{movie.release_date || movie.first_air_date || movie.year || ''}</p>
               </div>
             </article>
           </Link>

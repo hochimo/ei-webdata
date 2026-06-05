@@ -8,14 +8,11 @@ export function useFetchMovies() {
 
   useEffect(() => {
     axios
-      .get('https://api.themoviedb.org/3/discover/movie', {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo',
-        },
-      })
+      .get(`${import.meta.env.VITE_BACKEND_URL}/movies?limit=100`)
       .then((response) => {
-        setMovies(response.data.results);
+        // backend returns { movies: [...] }
+        const data = response.data?.movies || response.data || [];
+        setMovies(data);
         setLoading(false);
       })
       .catch((err) => {

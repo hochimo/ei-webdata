@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { useFetchMoviesDetails } from './useFetchMoviesDetails';
+import RatingForm from '../../components/RatingForm/RatingForm';
 import './MovieDetail.css';
 
 function MovieDetail() {
@@ -50,6 +51,8 @@ function MovieDetail() {
             <h4> Production Companies : </h4>
             <p>{movie.production_companies?.map((company) => company.name).join(', ')}</p>
           </div>
+
+          <RatingForm movieId={movie.id} movieTitle={movie.title || movie.name} />
         </div>
       </div>
     </div>
