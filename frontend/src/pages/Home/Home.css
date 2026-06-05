@@ -44,6 +44,37 @@
 .App-link {
   color: #61dafb;
 }
+
+/* Search section styles */
+.search-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 18px; /* push search down slightly from recommendations */
+  margin-bottom: 16px;
+}
+
+.search-section input {
+  width: 60%;
+  max-width: 900px;
+  padding: 12px 14px;
+  font-size: 1.05rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: white;
+}
+
+.search-section p {
+  margin-top: 8px;
+}
+
+@media (max-width: 800px) {
+  .search-section input {
+    width: 90%;
+  }
+}
+
 /*
 @keyframes App-logo-spin {
   from {

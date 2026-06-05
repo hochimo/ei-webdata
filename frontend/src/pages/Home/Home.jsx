@@ -29,16 +29,6 @@ function Home() {
   return (
     <div className="App">
       <header className="App-header">
-        
-        <p>
-          <input
-            name="name"
-            placeholder="Rechercher un film"
-            value={movieName}
-            onChange={(e) => setMovieName(e.target.value)}
-          />
-          {movieName && <p>Recherche : {movieName}</p>}
-        </p>
         {loading && <p>Chargement...</p>}
         {error && <p>Erreur !</p>}
         {selectedUser && (
@@ -52,6 +42,15 @@ function Home() {
             )}
           </div>
         )}
+        <div className="search-section">
+          <input
+            name="name"
+            placeholder="Rechercher un film"
+            value={movieName}
+            onChange={(e) => setMovieName(e.target.value)}
+          />
+          {movieName && <p>Recherche : {movieName}</p>}
+        </div>
         <div className="popular-section">
           <h3 className="popular-title">Films populaires</h3>
         </div>
