@@ -1,5 +1,6 @@
 import express from 'express';
 import axios from 'axios';
+import { Like } from 'typeorm';
 import { appDataSource } from '../datasource.js';
 import Movies from '../entities/Movies.js';
 import Ratings from '../entities/ratings.js';
@@ -80,12 +81,14 @@ async function enrichMoviesWithPosters(movies) {
 }
 
 router.get('/', async function (req, res) {
+  const q = req.query.q?.toString().trim();
   const limit = Math.min(parseInt(req.query.limit || '100', 10), 200);
   const take = Number.isNaN(limit) ? 100 : limit;
 
   try {
     await ensurePosterColumnExists();
-    const movies = await appDataSource.getRepository(Movies).find({ take, order: { vote_average: 'DESC' } });
+    const where = q ? { title: Like(`%${q}%`) } : {};
+    const movies = await appDataSource.getRepository(Movies).find({ where, take, order: { vote_average: 'DESC' } });
     const enriched = await enrichMoviesWithPosters(movies);
     return res.json({ movies: enriched });
   } catch (error) {

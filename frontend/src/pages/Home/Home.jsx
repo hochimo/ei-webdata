@@ -9,22 +9,13 @@ import MoviesTable from '../../components/Movies/Movie';
 function Home() {
   const [movieName, setMovieName] = useState('');
   const { selectedUser } = useUser();
-  const { movies, loading, error } = useFetchMovies();
+  const { movies, loading, error } = useFetchMovies(movieName);
   const { recommendations, loading: recLoading } = useFetchRecommendations(
     selectedUser?.id,
-    5
+    20
   );
 
-  const filteredMovies = movies.filter((movie) => {
-    if (!movieName) {
-      return true;
-    }
-
-    const lowerName = movieName.toLowerCase();
-    const title = movie.title || movie.name || '';
-
-    return title.toLowerCase().includes(lowerName);
-  });
+  const filteredMovies = movies; // backend performs DB search
 
   return (
     <div className="App">
