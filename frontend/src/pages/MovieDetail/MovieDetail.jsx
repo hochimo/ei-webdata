@@ -11,6 +11,8 @@ function MovieDetail() {
   if (error) return <div>Erreur : {error.message || error.toString()}</div>;
   if (!movie) return <div>Film non trouvé</div>;
 
+  const runtime = movie.runtime ?? movie.episode_run_time?.[0];
+
   return (
     <div className="movie-detail">
       <Link to="/" className="movie-detail-retour">
@@ -31,12 +33,15 @@ function MovieDetail() {
           <div>
             <h1>{movie.title || movie.name || 'Titre inconnu'}</h1>
             <h4 className="movie-detail-date">Release Date : {movie.release_date}</h4>
+            <h4 className="movie-detail-runtime">
+              Runtime : {movie.runtime} minutes
+            </h4>
           </div>
+
           <div className="movie-detail-genres">
             <h4>Genres :</h4>
             <p>{movie.genres?.map((genre) => genre.name).join(', ')}</p>
           </div>
-          
 
           <div className="movie-detail-overview">
             <h4>Synopsis :</h4>

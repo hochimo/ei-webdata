@@ -51,6 +51,10 @@
   color: #b9c6db;
 }
 
+.movie-detail-runtime {
+  margin: 0;
+  color: #b9c6db;
+}
 .movie-detail-overview h4,
 .movie-detail-credits h4,
 .movie-detail-productionCompanies h4,
