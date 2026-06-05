@@ -67,18 +67,18 @@ const seedDatabaseFromAPI = async () => {
   
    
    
-    // ÉTAPE A : On supprime les éventuels doublons présents dans notre lot de 100 films
+    // On supprime les éventuels doublons présents dans notre lot de 100 films
     // En utilisant un Map avec l'ID comme clé, on s'assure de ne garder qu'une seule version de chaque film.
     const uniqueMoviesToInsert = Array.from(new Map(moviesToInsert.map(movie => [movie.id, movie])).values());
 
-    // ÉTAPE B : On utilise .upsert() pour forcer la mise à jour si l'ID existe déjà en base
+    // On utilise .upsert() pour forcer la mise à jour si l'ID existe déjà en base
     // Le deuxième paramètre ["id"] dit explicitement à SQLite : "C'est l'ID qui détermine si le film existe".
     await movieRepository.upsert(uniqueMoviesToInsert, ["id"]);
     
-    console.log(`🎬 Succès ! ${moviesToInsert.length} films de TMDB (avec leurs acteurs) ont été copiés dans ta base de données locale !`);
+    console.log(`Succès ! ${moviesToInsert.length} films de TMDB (avec leurs acteurs) ont été copiés dans ta base de données locale !`);
 
   } catch (error) {
-    console.error("❌ Erreur lors de l'importation :", error);
+    console.error("Erreur lors de l'importation :", error);
   } finally {
     // 5. On ferme la connexion
     if (appDataSource.isInitialized) {
