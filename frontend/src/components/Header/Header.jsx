@@ -9,7 +9,7 @@ const Header = () => {
       
       <div className="Header-links">
         <Link className="Link" to="/">
-          Home
+          Accueil
         </Link>
         <div>|</div>
         {/* <Link className="Link" to="/counter">
@@ -17,7 +17,7 @@ const Header = () => {
         </Link> 
         <div>|</div>*/}
         <Link className="Link" to="/users">
-          Users
+          Utilisateurs
         </Link>
         {/*<div>|</div>
         <Link className="Link" to="/about">
