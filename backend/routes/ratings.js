@@ -1,8 +1,25 @@
+import axios from 'axios';
 import express from 'express';
 import { appDataSource } from '../datasource.js';
 import Ratings from '../entities/ratings.js';
 
+const TMDB_TOKEN = process.env.TMDB_TOKEN || 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo';
+
 const router = express.Router();
+
+async function fetchTmdbMovieDetails(movieId) {
+  try {
+    const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}`, {
+      headers: {
+        Authorization: `Bearer ${TMDB_TOKEN}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.warn(`TMDB details unavailable for movie ${movieId}:`, error.message);
+    return null;
+  }
+}
 
 /**
  * GET /ratings
@@ -79,11 +96,21 @@ router.post('/', async function (req, res) {
 
     let movieExists = await movieRepository.findOne({ where: { id: movieId } });
     if (!movieExists) {
-      movieExists = movieRepository.create({
+      const tmdbDetails = await fetchTmdbMovieDetails(movieId);
+      const movieData = {
         id: movieId,
-        title: `Film #${movieId}`,
-        year: null,
-      });
+        title: tmdbDetails?.title || `Film #${movieId}`,
+        year: tmdbDetails?.release_date
+          ? parseInt(tmdbDetails.release_date.substring(0, 4), 10)
+          : null,
+        synopsis: tmdbDetails?.overview || null,
+        genres: tmdbDetails?.genres
+          ? tmdbDetails.genres.map((genre) => genre.name)
+          : null,
+        vote_average: tmdbDetails?.vote_average || null,
+        vote_count: tmdbDetails?.vote_count || null,
+      };
+      movieExists = movieRepository.create(movieData);
       await movieRepository.save(movieExists);
     }
 

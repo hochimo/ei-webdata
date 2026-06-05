@@ -1,7 +1,24 @@
+import axios from 'axios';
 import { appDataSource } from '../datasource.js';
 
 const Movies = appDataSource.getRepository('Movie');
 const Ratings = appDataSource.getRepository('Rating');
+
+const TMDB_TOKEN = process.env.TMDB_TOKEN || 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjlmNjAwMzY4MzMzODNkNGIwYjNhNzJiODA3MzdjNCIsInN1YiI6IjY0NzA5YmE4YzVhZGE1MDBkZWU2ZTMxMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Em7Y9fSW94J91rbuKFjDWxmpWaQzTitxRKNdQ5Lh2Eo';
+
+async function fetchTmdbMovieDetails(movieId) {
+  try {
+    const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}`, {
+      headers: {
+        Authorization: `Bearer ${TMDB_TOKEN}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.warn(`TMDB details not available for movie ${movieId}:`, error.message);
+    return null;
+  }
+}
 
 /**
  * Calcule la similarité cosinus entre deux vecteurs
@@ -112,12 +129,19 @@ export async function getRecommendations(userId, limit = 5) {
     if (candidateMovies.length === 0) {
       const topMovies = allMovies
         .sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0))
-        .slice(0, limit)
-        .map((movie) => ({
-          movie,
-          score: movie.vote_average ? movie.vote_average.toFixed(3) : '0.000',
-        }));
-      return topMovies;
+        .slice(0, limit);
+
+      const recommendations = await Promise.all(
+        topMovies.map(async (movie) => {
+          const tmdbMovie = await fetchTmdbMovieDetails(movie.id);
+          return {
+            movie: tmdbMovie || movie,
+            score: movie.vote_average ? movie.vote_average.toFixed(3) : '0.000',
+          };
+        })
+      );
+
+      return recommendations;
     }
 
     for (const candidateMovie of candidateMovies) {
@@ -138,13 +162,19 @@ export async function getRecommendations(userId, limit = 5) {
     }
 
     // 5. Trier par score et retourner top N
-    const recommendations = Object.values(scores)
+    const rawRecommendations = Object.values(scores)
       .sort((a, b) => b.score - a.score)
-      .slice(0, limit)
-      .map((item) => ({
-        movie: item.movie,
-        score: item.score.toFixed(3),
-      }));
+      .slice(0, limit);
+
+    const recommendations = await Promise.all(
+      rawRecommendations.map(async (item) => {
+        const tmdbMovie = await fetchTmdbMovieDetails(item.movie.id);
+        return {
+          movie: tmdbMovie || item.movie,
+          score: item.score.toFixed(3),
+        };
+      })
+    );
 
     return recommendations;
   } catch (error) {
